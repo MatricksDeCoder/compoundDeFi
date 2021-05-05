@@ -17,7 +17,7 @@ contract DeFiCompound {
         priceOracle = IPriceOracle(_priceOracle);
     }
 
-    /// @notice function to lend money to protocol 
+    /// @notice function to supply money collateral/lend money to protocol 
     /// @param _cToken the address of market to lend eg cDAI
     /// @param _amountUnderlying the amount of tokens to lend
     function supply(address _cToken, uint _amountUnderlying) external {
@@ -30,8 +30,8 @@ contract DeFiCompound {
         require(success == 0, 'cToken minting failed -> details ErrorReporter.sol');
     }
 
-    /// @notice function to redeem underlying by sending back cToken
-    /// @param _cToken the address of market to lend eg cDAI
+    /// @notice function to redeem underlying asset supplied by sending back cToken
+    /// @param _cToken the address of market eg cDAI
     /// @param _amountCToken the amount of cTokens to redeem
     function redeem(address _cToken, uint _amountCToken) external {
         ICToken cToken = ICToken(_cToken);
@@ -57,7 +57,6 @@ contract DeFiCompound {
     /// @param _borrowAmount the amount of the underlying to borrow
     function borrow(address _cToken, uint _borrowAmount) external {
         ICToken cToken = ICToken(_cToken);
-        address underlyingAddress = cToken.underlying(); 
         uint result = cToken.borrow(_borrowAmount);
         require(
             result == 0, 
